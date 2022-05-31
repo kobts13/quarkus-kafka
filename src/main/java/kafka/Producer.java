@@ -12,10 +12,13 @@ import java.time.LocalDateTime;
 @ApplicationScoped
 public class Producer {
 
+    private static int number;
+    private static String runId;
+
     @Outgoing("out")
     public Multi<String> generate() {
-
+        runId = LocalDateTime.now().toString();
         return Multi.createFrom().ticks().every(Duration.ofSeconds(1))
-                .map(x -> LocalDateTime.now().toString());
+                .map(x -> runId + " - " + number++);
     }
 }
